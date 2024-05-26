@@ -1,0 +1,25 @@
+{
+  "accounts": [
+    {
+      "userId": 1,
+      "username": "John",
+      "email": "john@yahoo.com",
+      "password": "john123",
+      "role": "user"
+    },
+    {
+      "userId": 2,
+      "username": "Admin",
+      "email": "admin@yahoo.com",
+      "password": "admin123",
+      "role": "admin"
+    },
+    {
+      "userId": 3,
+      "username": "User1",
+      "email": "user1@yahoo.com",
+      "password": "user123",
+      "role": "user"
+    }
+  ]
+}

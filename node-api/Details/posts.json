@@ -1,0 +1,70 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "His mother had always taught him",
+      "body": "His mother had always taught him not to ever think of himself as better than others. He'd tried to live by this motto. He never looked down on those who were less fortunate or who had less money than him. But the stupidity of the group of people he was talking to made him change his mind.",
+      "userId": 3,
+      "tags": [
+        "history",
+        "american",
+        "crime"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "His mother had always taught him",
+      "body": "His mother had always taught him not to ever think of himself as better than others. He'd tried to live by this motto. He never looked down on those who were less fortunate or who had less money than him. But the stupidity of the group of people he was talking to made him change his mind.",
+      "userId": 3,
+      "tags": [
+        "history",
+        "american",
+        "crime"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "His mother had always taught him 2",
+      "body": "His mother had always taught him not to ever think of himself as better than others. He'd tried to live by this motto. He never looked down on those who were less fortunate or who had less money than him. But the stupidity of the group of people he was talking to made him change his mind.",
+      "userId": 3,
+      "tags": [
+        "history",
+        "american",
+        "crime"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "His mother had always taught him 4",
+      "body": "His mother had always taught him not to ever think of himself as better than others. He'd tried to live by this motto. He never looked down on those who were less fortunate or who had less money than him. But the stupidity of the group of people he was talking to made him change his mind.",
+      "userId": 3,
+      "tags": [
+        "history",
+        "american",
+        "crime"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "His mother had always taught him 4",
+      "body": "His mother had always taught him not to ever think of himself as better than others. He'd tried to live by this motto. He never looked down on those who were less fortunate or who had less money than him. But the stupidity of the group of people he was talking to made him change his mind.",
+      "userId": 2,
+      "tags": [
+        "history",
+        "american",
+        "crime"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "His mother had always taught him 4",
+      "body": "His mother had always taught him not to ever think of himself as better than others. He'd tried to live by this motto. He never looked down on those who were less fortunate or who had less money than him. But the stupidity of the group of people he was talking to made him change his mind.",
+      "userId": 2,
+      "tags": [
+        "history",
+        "american",
+        "crime"
+      ]
+    }
+  ]
+}
