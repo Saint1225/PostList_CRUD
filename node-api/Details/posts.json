@@ -1,17 +1,6 @@
 {
   "posts": [
     {
-      "id": 1,
-      "title": "His mother had always taught him",
-      "body": "His mother had always taught him not to ever think of himself as better than others. He'd tried to live by this motto. He never looked down on those who were less fortunate or who had less money than him. But the stupidity of the group of people he was talking to made him change his mind.",
-      "userId": 3,
-      "tags": [
-        "history",
-        "american",
-        "crime"
-      ]
-    },
-    {
       "id": 3,
       "title": "His mother had always taught him",
       "body": "His mother had always taught him not to ever think of himself as better than others. He'd tried to live by this motto. He never looked down on those who were less fortunate or who had less money than him. But the stupidity of the group of people he was talking to made him change his mind.",
@@ -64,6 +53,58 @@
         "history",
         "american",
         "crime"
+      ]
+    },
+    {
+      "id": 1,
+      "title": "qwersdc",
+      "body": "rewqsdf",
+      "userId": 2,
+      "tags": [
+        "crime",
+        "space",
+        "fantasy",
+        "environment",
+        "philosophy"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "zxc",
+      "body": "cxz",
+      "userId": 2,
+      "tags": [
+        "space",
+        "adventure"
+      ]
+    },
+    {
+      "id": 9,
+      "title": "qwertyui",
+      "body": "iuytrew",
+      "userId": 4,
+      "tags": [
+        "crime",
+        "adventure"
+      ]
+    },
+    {
+      "id": 10,
+      "title": "1234567890",
+      "body": "0987654321",
+      "userId": 4,
+      "tags": [
+        "american",
+        "adventure"
+      ]
+    },
+    {
+      "id": 12,
+      "title": "ttyy",
+      "body": "yytt",
+      "userId": 4,
+      "tags": [
+        "american"
       ]
     }
   ]

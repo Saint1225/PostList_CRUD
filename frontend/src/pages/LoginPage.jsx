@@ -21,7 +21,6 @@ const LoginPage = () => {
     mutationFn: loginAccount,
     onSuccess: (res) => {
       const { data } = res;
-      console.log(data);
       setSuccessModalMessage(data.message);
       setIsLoginSuccessful(true);
       dispatchUserProfile({
@@ -81,7 +80,7 @@ const LoginPage = () => {
       <LoginRegisterForm
         isLoginPage={true}
         isLoginRegisterLoading={isLoginLoading}
-        handleSubmit={handleLoginButtonClicked}
+        handleFormSubmit={handleLoginButtonClicked}
       />
       <SuccessModal
         isSuccessful={isLoginSuccessful}

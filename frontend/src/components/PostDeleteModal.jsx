@@ -9,6 +9,7 @@ import {
 } from "@material-tailwind/react";
 import { deletePost } from "../services/post";
 import SuccessModal from "./SuccessModal";
+import { useMutation } from "@tanstack/react-query";
 
 const PostDeleteModal = ({
   isDeleteModalOpen,
@@ -21,18 +22,35 @@ const PostDeleteModal = ({
 
   const { showBoundary } = useErrorBoundary();
 
+  const deletePostMutation = useMutation({
+    mutationFn: deletePost,
+    onSuccess: (res) => {
+      setIsDeleteModalOpen(false);
+      setIsDeleteSuccessful(true);
+      setDeletedMessage(res.data.message);
+      setIsPostListUpdated(true);
+      setTimeout(() => setIsDeleteSuccessful(false), 2000);
+    },
+    onError: (error) => {
+      showBoundary(error.message);
+    },
+  });
+
   const handleDeleteButtonClicked = () => {
-    deletePost(postId)
-      .then((res) => {
-        setIsDeleteModalOpen(false);
-        setIsDeleteSuccessful(true);
-        setDeletedMessage(res.data.message);
-        setIsPostListUpdated(true);
-        setTimeout(() => setIsDeleteSuccessful(false), 2000);
-      })
-      .catch((error) => {
-        showBoundary(error.message);
-      });
+    // deletePost(postId)
+    //   .then((res) => {
+    //     setIsDeleteModalOpen(false);
+    //     setIsDeleteSuccessful(true);
+    //     setDeletedMessage(res.data.message);
+    //     setIsPostListUpdated(true);
+    //     setTimeout(() => setIsDeleteSuccessful(false), 2000);
+    //   })
+    //   .catch((error) => {
+    //     showBoundary(error.message);
+    //   });
+
+    // Alternative with useMutation //
+    deletePostMutation.mutate(postId);
   };
 
   return (

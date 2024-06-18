@@ -4,6 +4,7 @@ import { useErrorBoundary } from "react-error-boundary";
 import LoginRegisterForm from "../components/LoginRegisterForm";
 import SuccessModal from "../components/SuccessModal";
 import { registerAccount } from "../services/account";
+import { useMutation } from "@tanstack/react-query";
 
 const RegisterPage = () => {
   const [isRegisterSuccessful, setIsRegisterSuccessful] = useState(false);
@@ -13,6 +14,23 @@ const RegisterPage = () => {
   const navigate = useNavigate();
   const { showBoundary } = useErrorBoundary();
 
+  const registerMutation = useMutation({
+    mutationFn: registerAccount,
+    onSuccess: (res) => {
+      if (res) {
+        const { data } = res;
+        setSuccessModalMessage(data.message);
+        setIsRegisterSuccessful(true);
+        setIsRegisterLoading(false);
+        setTimeout(() => navigate("/"), 2000);
+      }
+    },
+    onError: (error) => {
+      setIsRegisterLoading(false);
+      showBoundary(error.message);
+    },
+  });
+
   const handleRegisterButtonClicked = (registerInfo) => {
     setIsRegisterLoading(true);
     const registerPayload = {
@@ -21,21 +39,24 @@ const RegisterPage = () => {
       password: registerInfo.password,
       role: registerInfo.role,
     };
-    registerAccount(registerPayload)
-      .then((res) => {
-        if (res) {
-          const { data } = res;
-          console.log(data);
-          setSuccessModalMessage(data.message);
-          setIsRegisterSuccessful(true);
-          setIsRegisterLoading(false);
-          setTimeout(() => navigate("/"), 2000);
-        }
-      })
-      .catch((error) => {
-        setIsRegisterLoading(false);
-        showBoundary(error.message);
-      });
+    // registerAccount(registerPayload)
+    //   .then((res) => {
+    //     if (res) {
+    //       const { data } = res;
+    //       console.log(data);
+    //       setSuccessModalMessage(data.message);
+    //       setIsRegisterSuccessful(true);
+    //       setIsRegisterLoading(false);
+    //       setTimeout(() => navigate("/"), 2000);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     setIsRegisterLoading(false);
+    //     showBoundary(error.message);
+    //   });
+
+    // Alternative with useMutation //
+    registerMutation.mutate(registerPayload);
   };
 
   return (
@@ -43,7 +64,7 @@ const RegisterPage = () => {
       <LoginRegisterForm
         isLoginPage={false}
         isLoginRegisterLoading={isRegisterLoading}
-        handleSubmit={handleRegisterButtonClicked}
+        handleFormSubmit={handleRegisterButtonClicked}
       />
       <SuccessModal
         isSuccessful={isRegisterSuccessful}

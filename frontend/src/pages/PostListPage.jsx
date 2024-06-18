@@ -1,5 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { useErrorBoundary } from "react-error-boundary";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Spinner } from "@material-tailwind/react";
 import CounterCard from "../components/CounterCard";
 import PostListHeader from "../components/PostListHeader";
@@ -28,55 +29,104 @@ const PostListPage = () => {
   const { role } = useContext(UserContext);
   const { showBoundary } = useErrorBoundary();
 
-  const fetchPostList = () => {
-    setIsFetchingPosts(true);
-    // get total post number and admin post list
-    role === "admin" &&
-      getAdminPaginatedPosts(newPageNumber)
-        .then((res) => {
-          setPostsData(res);
-          setIsFetchingPosts(false);
-        })
-        .catch((error) => {
-          setIsFetchingPosts(false);
-          showBoundary(error.message);
-        });
+  // const fetchPostList = () => {
+  //   setIsFetchingPosts(true);
+  //   // get total post number and admin post list
+  //   role === "admin" &&
+  //     getAdminPaginatedPosts(newPageNumber)
+  //       .then((res) => {
+  //         setPostsData(res);
+  //         setIsFetchingPosts(false);
+  //       })
+  //       .catch((error) => {
+  //         setIsFetchingPosts(false);
+  //         showBoundary(error.message);
+  //       });
 
-    // get my post number and list
-    getUserPaginatedPosts(newPageNumber)
-      .then((res) => {
-        role === "user" && setPostsData(res);
-        setTotalMyPosts(res.totalPosts);
-        setIsFetchingPosts(false);
-      })
-      .catch((error) => {
-        setIsFetchingPosts(false);
-        showBoundary(error.message);
-      });
-  };
+  //   // get my post number and list
+  //   getUserPaginatedPosts(newPageNumber)
+  //     .then((res) => {
+  //       role === "user" && setPostsData(res);
+  //       setTotalMyPosts(res.totalPosts);
+  //       setIsFetchingPosts(false);
+  //     })
+  //     .catch((error) => {
+  //       setIsFetchingPosts(false);
+  //       showBoundary(error.message);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   fetchPostList();
+  // }, [role, newPageNumber]);
+
+  // useEffect(() => {
+  //   if (isPostListUpdated) {
+  //     fetchPostList();
+  //     setIsPostListUpdated(false);
+  //   }
+  // }, [isPostListUpdated]);
+
+  // useEffect(() => {
+  //   if (role === "admin")
+  //     // get all accounts number
+  //     getAllAccounts()
+  //       .then((res) => {
+  //         setTotalAccounts(res?.data.accounts.length);
+  //       })
+  //       .catch((error) => {
+  //         showBoundary(error.message);
+  //       });
+  // }, [role]);
+
+  // Proved query data can be accessed as redux or useContext state //
+  // const loginQuery = useQuery({
+  //   queryKey: ["login"],
+  // });
+  // console.log(loginQuery);
+
+  //*** Alternative with useQuery ***//
+  const allPostQuery = useQuery({
+    queryKey: ["allPosts", newPageNumber],
+    placeholderData: keepPreviousData,
+    queryFn: () => {
+      setIsFetchingPosts(true);
+      return getAdminPaginatedPosts(newPageNumber);
+    },
+    enabled: role === "admin",
+  });
+
+  const userPostQuery = useQuery({
+    queryKey: ["userPosts", newPageNumber],
+    placeholderData: keepPreviousData,
+    queryFn: () => getUserPaginatedPosts(newPageNumber),
+  });
+
+  const accountQuery = useQuery({
+    queryKey: ["allAccounts"],
+    queryFn: getAllAccounts,
+    enabled: role === "admin",
+  });
 
   useEffect(() => {
-    fetchPostList();
-  }, [role, newPageNumber]);
+    allPostQuery.data && setPostsData(allPostQuery.data);
+    allPostQuery.error && showBoundary(allPostQuery.error.message);
+    userPostQuery.data && role === "user" && setPostsData(userPostQuery.data);
+    userPostQuery.data && setTotalMyPosts(userPostQuery.data.totalPosts);
+    userPostQuery.error && showBoundary(userPostQuery.error.message);
+    accountQuery.data && setTotalAccounts(accountQuery.data.accounts.length);
+    accountQuery.error && showBoundary(accountQuery.error.message);
+
+    setIsFetchingPosts(false);
+  }, [role, allPostQuery, userPostQuery, accountQuery, showBoundary]);
 
   useEffect(() => {
     if (isPostListUpdated) {
-      fetchPostList();
+      role === "admin" && allPostQuery.refetch(newPageNumber);
+      userPostQuery.refetch(newPageNumber);
       setIsPostListUpdated(false);
     }
-  }, [isPostListUpdated]);
-
-  useEffect(() => {
-    if (role === "admin")
-      // get all accounts number
-      getAllAccounts()
-        .then((res) => {
-          setTotalAccounts(res?.data.accounts.length);
-        })
-        .catch((error) => {
-          showBoundary(error.message);
-        });
-  }, [role]);
+  }, [role, allPostQuery, userPostQuery, newPageNumber, isPostListUpdated]);
 
   return (
     <div className="flex flex-col w-screen lg:w-4/5 xl:w-3/5 mx-4">

@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import pwg_logo from "../assets/pwg_logo.jpeg";
 
 const PostCard = ({
   isViewPostPage,
@@ -42,10 +41,6 @@ const PostCard = ({
         isViewPostPage && "pb-16"
       }`}
     >
-      <img
-        src={pwg_logo}
-        className="w-16 -rotate-[30deg] translate-y-2 ml-auto"
-      />
       <h2 className="text-lg mx-4 mt-3">{post?.title}</h2>
       <div className="h-1/2">
         <p className="px-5 my-4 line-clamp-5">{post?.body}</p>

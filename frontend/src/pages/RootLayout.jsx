@@ -16,7 +16,7 @@ function Fallback({ error, resetErrorBoundary }) {
     <Dialog open={true} handler={resetErrorBoundary}>
       <DialogHeader className="ml-4">Error</DialogHeader>
       <DialogBody className="ml-4 text-lg text-blue-gray-900">
-        {error}
+        {error.message}
       </DialogBody>
       <DialogFooter>
         <Button

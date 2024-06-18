@@ -14,6 +14,7 @@ import {
 } from "@material-tailwind/react";
 import { createPost, editPost } from "../services/post";
 import SuccessModal from "./SuccessModal";
+import { useMutation } from "@tanstack/react-query";
 
 const PostEditModal = ({
   isEditModalOpen,
@@ -26,6 +27,35 @@ const PostEditModal = ({
   const [submittedMessage, setSubmittedMessage] = useState("");
   const animatedComponents = makeAnimated();
   const { showBoundary } = useErrorBoundary();
+
+  const createPostMutation = useMutation({
+    mutationFn: createPost,
+    onSuccess: (res) => {
+      setIsEditModalOpen(false);
+      setIsSubmitSuccessful(true);
+      setSubmittedMessage(res.message);
+      setIsPostListUpdated(true);
+      setTimeout(() => setIsSubmitSuccessful(false), 2000);
+    },
+    onError: (error) => {
+      showBoundary(error.message);
+    },
+  });
+
+  const editPostMutation = useMutation({
+    mutationFn: editPost,
+    onSuccess: (res) => {
+      setIsEditModalOpen(false);
+      setIsSubmitSuccessful(true);
+      setSubmittedMessage(res.data.message);
+      setIsPostListUpdated(true);
+      setTimeout(() => setIsSubmitSuccessful(false), 2000);
+    },
+    onError: (error) => {
+      showBoundary(error.message);
+    },
+  });
+
   const tagsOptions = [
     { value: "history", label: "history" },
     { value: "american", label: "american" },
@@ -76,31 +106,35 @@ const PostEditModal = ({
       body: contentTextareaRef.current.value,
       tags: transformTagsOptionsToArray(tagsSelectRef.current.props.value),
     };
-    if (isNewPost) {
-      createPost(postPayload)
-        .then((res) => {
-          setIsEditModalOpen(false);
-          setIsSubmitSuccessful(true);
-          setSubmittedMessage(res.message);
-          setIsPostListUpdated(true);
-          setTimeout(() => setIsSubmitSuccessful(false), 2000);
-        })
-        .catch((error) => {
-          showBoundary(error.message);
-        });
-    } else {
-      editPost(post.id, postPayload)
-        .then((res) => {
-          setIsEditModalOpen(false);
-          setIsSubmitSuccessful(true);
-          setSubmittedMessage(res.data.message);
-          setIsPostListUpdated(true);
-          setTimeout(() => setIsSubmitSuccessful(false), 2000);
-        })
-        .catch((error) => {
-          showBoundary(error.message);
-        });
-    }
+    // if (isNewPost) {
+    //   createPost(postPayload)
+    //     .then((res) => {
+    //       setIsEditModalOpen(false);
+    //       setIsSubmitSuccessful(true);
+    //       setSubmittedMessage(res.message);
+    //       setIsPostListUpdated(true);
+    //       setTimeout(() => setIsSubmitSuccessful(false), 2000);
+    //     })
+    //     .catch((error) => {
+    //       showBoundary(error.message);
+    //     });
+    // } else {
+    //   editPost(post.id, postPayload)
+    //     .then((res) => {
+    //       setIsEditModalOpen(false);
+    //       setIsSubmitSuccessful(true);
+    //       setSubmittedMessage(res.data.message);
+    //       setIsPostListUpdated(true);
+    //       setTimeout(() => setIsSubmitSuccessful(false), 2000);
+    //     })
+    //     .catch((error) => {
+    //       showBoundary(error.message);
+    //     });
+    // };
+
+    // Alternative with useMutation //
+    if (isNewPost) createPostMutation.mutate(postPayload);
+    else editPostMutation.mutate(post.id, postPayload);
   };
 
   return (

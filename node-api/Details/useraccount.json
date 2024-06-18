@@ -20,6 +20,20 @@
       "email": "user1@yahoo.com",
       "password": "user123",
       "role": "user"
+    },
+    {
+      "userId": 4,
+      "username": "admin456",
+      "email": "admin456@yahoo.com.tw",
+      "password": "admin456",
+      "role": "admin"
+    },
+    {
+      "userId": 5,
+      "username": "fss",
+      "email": "sf@ef.v",
+      "password": "sd@efs",
+      "role": "admin"
     }
   ]
 }
