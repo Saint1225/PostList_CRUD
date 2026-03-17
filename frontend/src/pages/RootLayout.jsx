@@ -44,10 +44,10 @@ const Rootlayout = () => {
         username: userInfo.username,
       });
     }
-  }, [role]);
+  }, [role, dispatchUserProfile]);
   return (
     <div className="h-screen w-screen flex justify-center overflow-x-hidden">
-      <ErrorBoundary FallbackComponent={Fallback} onReset={(details) => {}}>
+      <ErrorBoundary FallbackComponent={Fallback} onReset={() => {}}>
         <Outlet />
       </ErrorBoundary>
     </div>
